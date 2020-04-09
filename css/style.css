@@ -1,0 +1,58 @@
+
+
+
+
+.gallery-display {
+    width: 95vw;
+}
+
+img.gallery-img {
+    width: 200px;
+    margin: 15px;
+    
+}
+
+.meme-editor {
+    /* background-color: lightblue; */
+    display: none;
+}
+
+
+
+
+/* <<<<<< Helpers >>>>>>> */
+
+
+.clean-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* <<<<<< Flex helpers >>>>>>> */
+
+
+.flex {
+    display: flex;
+}
+
+.columns {
+    flex-direction: column;
+}
+
+.rows {
+    flex-direction: row;
+}
+
+.wrap {
+    flex-wrap: wrap;
+}
+
+.flex.justify-center {
+    justify-content: center;
+}
+
+.flex.align-center {
+    align-items: center;
+}
