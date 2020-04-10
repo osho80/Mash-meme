@@ -1,5 +1,7 @@
 'use strict';
 
+const MEME_KEY = 'meme';
+
 var gMeme = {
     selectedImgId: '',
     selectedLineIDx: '',
