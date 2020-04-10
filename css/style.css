@@ -15,9 +15,18 @@ img.gallery-img {
 .meme-editor {
     /* background-color: lightblue; */
     display: none;
+    /* visibility: hidden; */
+    
+    
 }
 
+.editor-tools {
+    
+}
 
+button img {
+    width: 30px;
+}
 
 
 /* <<<<<< Helpers >>>>>>> */

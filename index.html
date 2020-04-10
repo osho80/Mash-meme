@@ -21,15 +21,23 @@
             <h2>Pick-a-Pic</h2>
             <input class="search-img" type="text" placeholder="Keywords"> <button onclick="onSearhcImg()">Search</button>
         </article>
-        <div class="gallery-display flex row wrap justify-center">
+        <div class="gallery-display flex wrap justify-center">
                 
         </div>
     </section>
 
     <section class="meme-editor">
-        <canvas id="myCanvas" width="500" height="500" style="outline:1px solid black"></canvas>
+        <div class="canvas-container">
+            <canvas id="myCanvas" width="500" height="500" style="outline:1px solid black"></canvas>
+        </div>
         <div class="editor-tools">
-
+            <input type="text" class="meme-txt" oninput="onDrawText(this.value)">
+            <button onclick="onIncreaseFont()">
+                <img src="/icons/increase font - icon.png">
+            </button>
+            <button onclick="onDecreaseFont()">
+                <img src="/icons/decrease font - icon.png">
+            </button>
         </div>
     </section>
 
@@ -38,6 +46,7 @@
 
     <script src="js/mashMeme-controller.js"></script>
     <script src="js/mashMeme-service.js"></script>
+    <script src="js/mashGallery-service.js"></script>
     <script src="js/storage-service.js"></script>
 </body>
 
