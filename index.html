@@ -26,11 +26,11 @@
         </div>
     </section>
 
-    <section class="meme-editor flex space-between">
+    <section class="meme-editor space-between">
         <div class="canvas-container">
             <canvas id="myCanvas" width="500" height="500" style="outline:1px solid black"></canvas>
         </div>
-        <div class="editor-tools">
+        <div class="editor-tools flex">
             <input type="text" class="meme-txt" oninput="onDrawText(this.value)" onfocus="editLine()"><br>
             <button onclick="onIncreaseFont()">
                 <img src="icons/increase font - icon.png">

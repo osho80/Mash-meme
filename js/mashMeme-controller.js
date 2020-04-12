@@ -170,27 +170,25 @@ function drawText(meme, idx) {
 // }
 
 function onIncreaseFont() {
-    //debugger
-    gMeme.lines[0].size++;
-    //removeFromStorage(MEME_KEY);
+    gMeme.lines[gMeme.selectedLineIDx].size++;
     saveToStorage(MEME_KEY, gMeme);
-    onDrawText(gMeme.lines[0].text);
+    onDrawText(gMeme.lines[gMeme.selectedLineIDx].text);
 }
 
 function onDecreaseFont() {
-    gMeme.lines[0].size--;
+    gMeme.lines[gMeme.selectedLineIDx].size--;
     saveToStorage(MEME_KEY, gMeme);
-    onDrawText(gMeme.lines[0].text);
+    onDrawText(gMeme.lines[gMeme.selectedLineIDx].text);
 }
 
 function lineDown() {
-    gLineYaxisPos = gLineYaxisPos + 20;
-    onDrawText(gMeme.lines[0].text);
+    gMeme.lines[gMeme.selectedLineIDx].yPos = gMeme.lines[gMeme.selectedLineIDx].yPos + 20;
+    onDrawText(gMeme.lines[gMeme.selectedLineIDx].text);
 }
 
 function lineUp(){
-    gLineYaxisPos = gLineYaxisPos - 20;
-    onDrawText(gMeme.lines[0].text);
+    gMeme.lines[gMeme.selectedLineIDx].yPos = gMeme.lines[gMeme.selectedLineIDx].yPos - 20;
+    onDrawText(gMeme.lines[gMeme.selectedLineIDx].text);
 }
 
 function changeLineIdx() {
@@ -205,12 +203,14 @@ function changeLineIdx() {
         //x = gMeme.lines[selectedLineIDx].text;
     }
     console.log('line: ', gMeme.selectedLineIDx);
-    //x = 'Oshri'
+    var currLine = document.querySelector('input.meme-txt');
+   
+    currLine.value = gMeme.lines[gMeme.selectedLineIDx].text;
     
     
 }
 
-function editLine() {
+function editLine() {       //maybe can be deleted!!!
     //console.log('Im focused');
     var currLine = document.querySelector('input.meme-txt');
     //console.log('x before change: ', currLine);
