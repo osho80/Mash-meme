@@ -13,7 +13,7 @@
         <h1>MASH<span>-</span><span>MEME</span></h1>
         <ul class="main-nav clean-list flex clean-list">
             <li><button class="gallery-btn" onclick="openGallery()">Gallery</button></li>
-            <li><button class="saved-memes" onclick="">Memes</button></li>
+            <li><button class="saved-memes" onclick="openMemes()">Memes</button></li>
         </ul>
     </header>
     <section class="imgs-gallery">
@@ -23,6 +23,13 @@
         </article>
         <div class="gallery-display flex wrap justify-center">
                 
+        </div>
+    </section>
+
+    <section class="meme-gallery">
+        <h2>My Memes</h2>
+        <div class="memes-display">
+
         </div>
     </section>
 
@@ -43,6 +50,7 @@
             <button onclick="changeLineIdx()">
                 <img src="icons/up-and-down-opposite-double-arrows-side-by-side.png">
             </button>
+            <button onclick="saveToMemes()">Save</button>
         </div>
     </section>
 

@@ -15,7 +15,10 @@ img.gallery-img {
     width: 200px;
     margin: 15px;
     border-radius: 20px;
-    
+}
+
+img.gallery-img:hover {
+    border: 3px solid yellowgreen;
 }
 
 .meme-editor {
@@ -25,6 +28,10 @@ img.gallery-img {
     /* visibility: hidden; */
     
     
+}
+
+.meme-gallery {
+    display: none;
 }
 
 input {
