@@ -60,7 +60,37 @@ function renderGallery() {
 function openGallery(){ 
     gElEditor.style.display = 'none';
     gElGallery.style.display = 'block';
+    gMeme = {
+        selectedImgId: '',
+        selectedLineIDx: 0,
+        lines: [
+            {
+                text: 'I love to meme',
+                size: 40,
+                xPos: 30,
+                yPos: 60,
+                align: 'left',
+                color: 'green',
+                font: 'david'
+            },
+    
+            {
+                text: '#MeToo',
+                size: 40,
+                xPos: 30,
+                yPos: 430,
+                align: 'left',
+                color: 'red',
+                font: 'IMPACT'
+            }
+        ]
+    }
     renderGallery();
+}
+
+function filterImgs() {
+    console.log('not available yet');
+    
 }
 
 function onSetEditor(img) {

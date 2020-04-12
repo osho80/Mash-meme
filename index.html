@@ -9,7 +9,7 @@
 </head>
 
 <body onload="onInit()">
-    <header>
+    <header class="flex space-between">
         <h1>MASH<span>-</span><span>MEME</span></h1>
         <ul class="main-nav clean-list flex clean-list">
             <li><button class="gallery-btn" onclick="openGallery()">Gallery</button></li>
@@ -19,7 +19,7 @@
     <section class="imgs-gallery">
         <article class="gallery-header">
             <h2>Pick-a-Pic</h2>
-            <input class="search-img" type="text" placeholder="Keywords"> <button onclick="onSearhcImg()">Search</button>
+            <input class="search-img" type="text" placeholder="Search" oniput="filterImgs()"> <button onclick="onSearhcImg()">Search</button>
         </article>
         <div class="gallery-display flex wrap justify-center">
                 
