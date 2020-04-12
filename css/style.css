@@ -22,12 +22,8 @@ img.gallery-img:hover, img.meme-gal-item:hover {
 }
 
 .meme-editor {
-    /* background-color: lightblue; */
     display: none;
     background-color: aquamarine;
-    /* visibility: hidden; */
-    
-    
 }
 
 .meme-gallery {
@@ -85,7 +81,6 @@ header button {
     margin: 5px;
 }
 .editor-tools input {
-    /* width: 250px; */
     height: 40px;
     min-width: 170px;
     
@@ -143,16 +138,6 @@ button img {
 
 /* <<<<< Media >>>>>>> */
 
-/* @media (max-width: 800px) {
-    .meme-editor {
-        flex-direction: column;
-    }
-
-    .canvas-container {
-        margin-right: 0px;
-    }
-} */
-
 @media (max-width: 740px) {
     .meme-editor {
         flex-direction: column;
@@ -171,9 +156,7 @@ button img {
         height: 28px;
         text-align: center;
         border-radius: 15px;
-        /* margin-left: 20px;
-        margin-right: 5px;
-        background-color: rgb(26, 209, 26); */
+        
     }
 
 }

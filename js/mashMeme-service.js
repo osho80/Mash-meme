@@ -28,8 +28,6 @@ var gMeme = {
     ]
 }
 
-// var gSavedMeme = 'meme-saved' + gSavedMemeIdx; 
-// var gSavedMemeIdx = 1001;
 
 const SAVED_MEME = 'savedMeme'
 
