@@ -20,8 +20,15 @@ img.gallery-img {
     
 }
 
+.canvas-container {
+    margin-right: 30px;
+}
+
 .editor-tools {
-    
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: start;
 }
 
 button img {
@@ -64,4 +71,26 @@ button img {
 
 .flex.align-center {
     align-items: center;
+}
+
+.flex.space-between {
+    justify-content: space-between;
+}
+
+.flex.space-around {
+    justify-content: space-around;
+}
+
+/* <<<<< Media >>>>>>> */
+
+@media (max-width: 740px) {
+    .meme-editor {
+        flex-direction: column;
+    }
+
+    .canvas-container {
+        margin-right: 0px;
+    }
+
+
 }

@@ -19,8 +19,33 @@ function onInit() {
     renderGallery();
     gCanvas = document.getElementById('myCanvas');
     gCtx = gCanvas.getContext('2d');
-}
+    window.addEventListener('resize', () => {
+        console.log('window: ', window);
+        if(window.innerWidth >= 740) return;
+        if(window.innerWidth < 740) {
+            removeFromStorage(MEME_KEY);
+            // gCanvas.width = window.innerWidth
+            gCanvas.width = 0.95*window.innerWidth
+            gCanvas.height = 0.95*window.innerWidth
+            onDrawText(gMeme.lines[0].text);
+            // onDrawText(gMeme.lines[1].text);
+            saveToStorage(MEME_KEY, gMeme);
+            //loadFromStorage(MEME_KEY);
+            //var img = 
+            // gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height);
+            // gMeme.lines.forEach(function(line, idx) {
+            //     //line.text = txt;
+            //     console.log(idx);
+            //     drawText(gMeme, idx);
+            //     //gLineYaxisPos = gLineYaxisPos + 100;
+            // });
+            // saveToStorage(MEME_KEY, gMeme);
 
+        }
+        //gCanvas.height = window.innerHeight
+    });
+    
+}
 
 function renderGallery() {
     var imgs = gImgs;
@@ -30,6 +55,12 @@ function renderGallery() {
 
     document.querySelector('.gallery-display').innerHTML = strHTMLs.join('');
     
+}
+
+function openGallery(){ 
+    gElEditor.style.display = 'none';
+    gElGallery.style.display = 'block';
+    renderGallery();
 }
 
 function onSetEditor(img) {
@@ -186,4 +217,12 @@ function editLine() {
     currLine.value = gMeme.lines[gMeme.selectedLineIDx].text;
     //console.log('x after change: ', currLine);
     
+}
+
+
+
+function handleTouch(ev) {
+    // See the effect of preventDefault regarding scrolling down inside the box 
+    ev.preventDefault()
+    console.log(ev.type)
 }

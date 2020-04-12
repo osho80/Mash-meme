@@ -26,22 +26,22 @@
         </div>
     </section>
 
-    <section class="meme-editor">
+    <section class="meme-editor flex space-between">
         <div class="canvas-container">
             <canvas id="myCanvas" width="500" height="500" style="outline:1px solid black"></canvas>
         </div>
         <div class="editor-tools">
-            <input type="text" class="meme-txt" oninput="onDrawText(this.value)" onfocus="editLine()">
+            <input type="text" class="meme-txt" oninput="onDrawText(this.value)" onfocus="editLine()"><br>
             <button onclick="onIncreaseFont()">
-                <img src="/icons/increase font - icon.png">
+                <img src="icons/increase font - icon.png">
             </button>
             <button onclick="onDecreaseFont()">
-                <img src="/icons/decrease font - icon.png">
+                <img src="icons/decrease font - icon.png">
             </button>
             <button onclick="lineDown()">Dw</button>
             <button onclick="lineUp()">Up</button>
             <button onclick="changeLineIdx()">
-                <img src="/icons/up-and-down-opposite-double-arrows-side-by-side.png">
+                <img src="icons/up-and-down-opposite-double-arrows-side-by-side.png">
             </button>
         </div>
     </section>
