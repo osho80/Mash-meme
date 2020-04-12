@@ -2,7 +2,7 @@
     box-sizing: border-box;
 }
 
-.imgs-gallery {
+.imgs-gallery, .meme-gallery {
     background-color: aquamarine;
 }
 
@@ -11,13 +11,13 @@
     
 }
 
-img.gallery-img {
+img.gallery-img, img.meme-gal-item {
     width: 200px;
     margin: 15px;
     border-radius: 20px;
 }
 
-img.gallery-img:hover {
+img.gallery-img:hover, img.meme-gal-item:hover {
     border: 3px solid yellowgreen;
 }
 

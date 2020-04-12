@@ -46,13 +46,13 @@ function renderGallery() {
 function renderMemes() {
     var memes = loadFromStorage(SAVED_MEME);
     var strHTMLs = memes.map(function(meme, idx) {
-        var img = new Image;
-        img.src = meme.data;
+        //var img = new Image;
+        //img.src = meme.data;
         console.log('rendermemes: ' , meme);
-        return `
-        <canvas id="${idx}canvas" width="200" height="200" style="outline:1px solid black">
-        </canvas>
-        `
+        return `<img class="meme-gal-item" id="${idx}-memes" src="${meme.data}" onclick="targetMeme(this)">`
+        
+        // <canvas id="${idx}canvas" width="200" height="200" style="outline:1px solid black">
+        // </canvas>
         
     });
     document.querySelector('.memes-display').innerHTML = strHTMLs.join('');
@@ -122,6 +122,46 @@ function onSetEditor(img) {
     //drawText (gMeme);
     //console.log(img);
     
+}
+
+function editMeme(meme, imgId) {
+    gElGallery.style.display = 'none';
+    gElMemes.style.display = 'none';
+    gElEditor.style.display = 'flex';
+    var imgUrl = findImgById(imgId);
+    console.log('img: ', imgUrl);
+    // var img.src = imgUrl; 
+    // gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height);
+    var img2Set = new Image();
+    img2Set.src = imgUrl;
+    img2Set.onload = () => {
+    gCtx.drawImage(img2Set, 0, 0, gCanvas.width, gCanvas.height);
+        meme.lines.forEach(function(line, idx) {
+            //line.text = txt;
+            console.log(idx);
+            drawText(meme, idx);
+            //gLineYaxisPos = gLineYaxisPos + 100;
+            // line[gMeme.selectedLineIDx].text = txt;
+        });
+    }
+    removeFromStorage(MEME_KEY);
+    gMeme = meme;
+    saveToStorage(MEME_KEY, meme);
+
+
+}
+
+function targetMeme(imgTag) {
+    console.log('editMeme: ', imgTag);
+    var idx = parseInt(imgTag.id);
+    console.log(idx);
+    var memes = loadFromStorage(SAVED_MEME);
+    var selectedMeme = memes[idx]
+    console.log(selectedMeme);
+    var imgId = selectedMeme.selectedImgId;
+    console.log(imgId);
+    
+    editMeme(selectedMeme, imgId);
 }
 
 function findImgById(imgId) {
