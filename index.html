@@ -31,12 +31,17 @@
             <canvas id="myCanvas" width="500" height="500" style="outline:1px solid black"></canvas>
         </div>
         <div class="editor-tools">
-            <input type="text" class="meme-txt" oninput="onDrawText(this.value)">
+            <input type="text" class="meme-txt" oninput="onDrawText(this.value)" onfocus="editLine()">
             <button onclick="onIncreaseFont()">
                 <img src="/icons/increase font - icon.png">
             </button>
             <button onclick="onDecreaseFont()">
                 <img src="/icons/decrease font - icon.png">
+            </button>
+            <button onclick="lineDown()">Dw</button>
+            <button onclick="lineUp()">Up</button>
+            <button onclick="changeLineIdx()">
+                <img src="/icons/up-and-down-opposite-double-arrows-side-by-side.png">
             </button>
         </div>
     </section>

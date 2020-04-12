@@ -6,7 +6,7 @@ var gCanvas;
 var gCtx;
 var gElGallery = document.querySelector('.imgs-gallery');
 var gElEditor = document.querySelector('.meme-editor');
-
+//var gLineYaxisPos = 60; // locates text start on canvas
 
 
 
@@ -40,8 +40,14 @@ function onSetEditor(img) {
     gMeme.selectedImgId = parseInt(img.id);
     
     gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height);
+    gMeme.lines.forEach(function(line, idx) {
+        //line.text = txt;
+        console.log(idx);
+        drawText(gMeme, idx);
+        //gLineYaxisPos = gLineYaxisPos + 100;
+    });
     saveToStorage(MEME_KEY, gMeme);
-    drawText (gMeme);
+    //drawText (gMeme);
     //console.log(img);
     
 }
@@ -55,21 +61,41 @@ function findImgById(imgId) {
     
 }
 
-function setImgOnCanvas(url) {
+function setImgOnCanvas(url, txt) {
+    gMeme.lines[gMeme.selectedLineIDx].text = txt;
     var img2Set = new Image();
     img2Set.src = url;
+    img2Set.onload = () => {
     gCtx.drawImage(img2Set, 0, 0, gCanvas.width, gCanvas.height);
+        gMeme.lines.forEach(function(line, idx) {
+            //line.text = txt;
+            console.log(idx);
+            drawText(gMeme, idx);
+            //gLineYaxisPos = gLineYaxisPos + 100;
+            // line[gMeme.selectedLineIDx].text = txt;
+        });
+    }
 }
 
 function onDrawText(txt) {
     loadFromStorage(MEME_KEY);
     var imgUrl = findImgById(gMeme.selectedImgId);
-    setImgOnCanvas(imgUrl);
+    //debugger
+    setImgOnCanvas(imgUrl, txt);
         //gCtx.drawImage(img2Set, 0, 0, gCanvas.width, gCanvas.height);
         //gMeme.lines[0].text = '';
         //drawText(gMeme);
-    gMeme.lines[0].text = txt;
-    drawText(gMeme);
+    // ***** Need map function *****
+    // for(var i = 0; i <  gMeme.lines.length; i++){
+    //     gMeme.lines[0].text = txt;
+    //     drawText(gMeme);
+    //     gLineYaxisPos = gLineYaxisPos + 400;
+    // }
+    
+    
+    
+    //gMeme.lines[0].text = txt;
+    //drawText(gMeme);
     removeFromStorage(MEME_KEY);
     saveToStorage(MEME_KEY, gMeme);
         //var elText = document.querySelector('.meme-txt');
@@ -82,20 +108,23 @@ function onDrawText(txt) {
         // render
 }
 
-function drawText(meme) {
+function drawText(meme, idx) {
+    console.log(meme, idx);
+    
     gCtx.beginPath();
     // gCtx.moveTo(10, 10);
     
     // gCtx.lineWidth = '2'
-    gCtx.strokeStyle = gMeme.lines[0].color
+    gCtx.strokeStyle = meme.lines[idx].color
     gCtx.fillStyle = 'white'
-    gCtx.font = gMeme.lines[0].size + 'px' + ' ' + gMeme.lines[0].font;
+    gCtx.font = meme.lines[idx].size + 'px' + ' ' + meme.lines[idx].font;
     
-    gCtx.textAlign = gMeme.lines[0].align
-    var memeTxt = gMeme.lines[0].text;
-    gCtx.fillText(memeTxt, 10, 60);
+    gCtx.textAlign = meme.lines[idx].align
+    var memeTxt = meme.lines[idx].text;
+    //debugger
+    gCtx.fillText(memeTxt,  meme.lines[idx].xPos,  meme.lines[idx].yPos);
     gCtx.closePath();
-    gCtx.strokeText(memeTxt, 10, 60);
+    gCtx.strokeText(memeTxt, meme.lines[idx].xPos,  meme.lines[idx].yPos);
     //renderMeme();
     // (text, x, y)
 }
@@ -121,4 +150,40 @@ function onDecreaseFont() {
     gMeme.lines[0].size--;
     saveToStorage(MEME_KEY, gMeme);
     onDrawText(gMeme.lines[0].text);
+}
+
+function lineDown() {
+    gLineYaxisPos = gLineYaxisPos + 20;
+    onDrawText(gMeme.lines[0].text);
+}
+
+function lineUp(){
+    gLineYaxisPos = gLineYaxisPos - 20;
+    onDrawText(gMeme.lines[0].text);
+}
+
+function changeLineIdx() {
+    
+    if(gMeme.selectedLineIDx >= gMeme.lines.length -1) {
+        gMeme.selectedLineIDx = 0;
+        // x.value.innerText = 'Oshri';
+        //x = 'Oshri'
+        //x = gMeme.lines[selectedLineIDx].text;
+    } else {
+        ++gMeme.selectedLineIDx;
+        //x = gMeme.lines[selectedLineIDx].text;
+    }
+    console.log('line: ', gMeme.selectedLineIDx);
+    //x = 'Oshri'
+    
+    
+}
+
+function editLine() {
+    //console.log('Im focused');
+    var currLine = document.querySelector('input.meme-txt');
+    //console.log('x before change: ', currLine);
+    currLine.value = gMeme.lines[gMeme.selectedLineIDx].text;
+    //console.log('x after change: ', currLine);
+    
 }
