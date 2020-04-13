@@ -7,22 +7,22 @@ var gCtx;
 var gElGallery = document.querySelector('.imgs-gallery');
 var gElEditor = document.querySelector('.meme-editor');
 var gElMemes = document.querySelector('.meme-gallery');
-var gSavedMemes; 
+
 
 
 
 function onInit() {
-    renderGallery();
+    renderGallery(gImgs);
     gCanvas = document.getElementById('myCanvas');
     gCtx = gCanvas.getContext('2d');
     window.addEventListener('resize', () => {
         //console.log('window: ', window);
-        if(window.innerWidth >= 740) return;
-        if(window.innerWidth < 740) {
+        if (window.innerWidth >= 740) return;  /// Really??
+        if (window.innerWidth < 740) {
             removeFromStorage(MEME_KEY);
             // gCanvas.width = window.innerWidth
-            gCanvas.width = 0.95*window.innerWidth
-            gCanvas.height = 0.95*window.innerWidth
+            gCanvas.width = 0.95 * window.innerWidth
+            gCanvas.height = 0.95 * window.innerWidth
             onDrawText(gMeme.lines[0].text);
             // onDrawText(gMeme.lines[1].text);
             saveToStorage(MEME_KEY, gMeme);
@@ -30,238 +30,132 @@ function onInit() {
 
         }
     });
-    
+
 }
 
-function renderGallery() {
-    var imgs = gImgs;
+function renderGallery(imgs) {
+    
     var strHTMLs = imgs.map(function getImgsHTML(img) {
         return `<img class="gallery-img" id="${img.id}" src="${img.url}" onclick="onSetEditor(this)">`
     });
 
     document.querySelector('.gallery-display').innerHTML = strHTMLs.join('');
-    
+
 }
 
 function renderMemes() {
-    var memes = loadFromStorage(SAVED_MEME);
-    var strHTMLs = memes.map(function(meme, idx) {
-        
+    var memes = getMemesForDisplay();
+    var strHTMLs = memes.map(function (meme, idx) {
+
         return `<img class="meme-gal-item" id="${idx}-memes" src="${meme.data}" onclick="targetMeme(this)">`
-        
-        
     });
     document.querySelector('.memes-display').innerHTML = strHTMLs.join('');
 }
 
-function openMemes(){
+function openMemes() {
     gElEditor.style.display = 'none';
     gElGallery.style.display = 'none';
     gElMemes.style.display = 'block';
     renderMemes();
-
 }
 
-function openGallery(){ 
+function openGallery() {
     gElEditor.style.display = 'none';
     gElMemes.style.display = 'none';
     gElGallery.style.display = 'block';
-    gMeme = {
-        selectedImgId: '',
-        selectedLineIDx: 0,
-        lines: [
-            {
-                text: 'I love to meme',
-                size: 40,
-                xPos: 30,
-                yPos: 60,
-                align: 'left',
-                color: 'green',
-                font: 'david'
-            },
-    
-            {
-                text: '#MeToo',
-                size: 40,
-                xPos: 30,
-                yPos: 430,
-                align: 'left',
-                color: 'red',
-                font: 'IMPACT'
-            }
-        ]
-    }
-    renderGallery();
+    setMemeToDefault();       //Why do we need it here? if gMeme was changed, like when editing saved meme. 
+    renderGallery(gImgs);
 }
 
-function filterImgs() {
-    console.log('not available yet');
-    
-}
-
-function onSetEditor(img) {
+function openEditor() {
     gElGallery.style.display = 'none';
     gElMemes.style.display = 'none';
     gElEditor.style.display = 'flex';
-    // gElGallery.style.visibility = 'hidden';
-    // gElEditor.style.visibility = 'visible';
-    gMeme.selectedImgId = parseInt(img.id);
-    
+}
+
+function onSetEditor(img) {             // operates by click on an image
+    openEditor();
+    var imgId = parseInt(img.id);
+    setMemeImg(imgId);
     gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height);
-    gMeme.lines.forEach(function(line, idx) {
-      
-        drawText(gMeme, idx);
-       
-    });
-    saveToStorage(MEME_KEY, gMeme);
-    
-    
+    var lines = getMemeLines();
+    lines.forEach(line => drawText(line)); 
+    dispEditableTxt();
+    // saveToStorage(MEME_KEY, gMeme);          Do we need it?
+
 }
 
-function editMeme(meme, imgId) {
-    gElGallery.style.display = 'none';
-    gElMemes.style.display = 'none';
-    gElEditor.style.display = 'flex';
-    var imgUrl = findImgById(imgId);
-    
-    var img2Set = new Image();
-    img2Set.src = imgUrl;
-    img2Set.onload = () => {
-    gCtx.drawImage(img2Set, 0, 0, gCanvas.width, gCanvas.height);
-        meme.lines.forEach(function(line, idx) {
-            
-            drawText(meme, idx);
-            
-        });
-    }
-    removeFromStorage(MEME_KEY);
+function editMeme(meme) {
+    openEditor();
+    renderCanvas(meme);
     gMeme = meme;
-    saveToStorage(MEME_KEY, meme);
 
-
+    //saveToStorage(MEME_KEY, meme);
 }
 
-function targetMeme(imgTag) {
+function targetMeme(imgTag) {           //onclick meme in meme gallery
     var idx = parseInt(imgTag.id);
-    var memes = loadFromStorage(SAVED_MEME);
-    var selectedMeme = memes[idx]
-    var imgId = selectedMeme.selectedImgId;
-    
-    editMeme(selectedMeme, imgId);
+    var meme = getMemeToEdit(idx)
+    editMeme(meme);
 }
 
-function findImgById(imgId) {
-    
-    var currImg = gImgs.find((img) => img.id === imgId);
-    return currImg.url;
-    
-}
-
-function setImgOnCanvas(url, txt) {
-    gMeme.lines[gMeme.selectedLineIDx].text = txt;
-    var img2Set = new Image();
-    img2Set.src = url;
-    img2Set.onload = () => {
-    gCtx.drawImage(img2Set, 0, 0, gCanvas.width, gCanvas.height);
-        gMeme.lines.forEach(function(line, idx) {
-            
-            drawText(gMeme, idx);
-            
-        });
+function renderCanvas(meme) {
+    var imgId = meme.selectedImgId;
+    var imgUrl = findImgById(imgId);
+    var img = new Image();
+    img.src = imgUrl;
+    img.onload = () => {
+        gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height);
+        var lines = meme.lines;
+        lines.forEach(line => drawText(line));  
     }
+    
 }
 
 function onDrawText(txt) {
-    loadFromStorage(MEME_KEY);
-    var imgUrl = findImgById(gMeme.selectedImgId);
-    //debugger
-    setImgOnCanvas(imgUrl, txt);
-   
-    removeFromStorage(MEME_KEY);
-    saveToStorage(MEME_KEY, gMeme);
-    
+    setTextToMeme(txt);
 }
 
-function drawText(meme, idx) {
-    
-    
-    gCtx.beginPath();
-    
-    gCtx.strokeStyle = meme.lines[idx].color
-    gCtx.fillStyle = 'white'
-    gCtx.font = meme.lines[idx].size + 'px' + ' ' + meme.lines[idx].font;
-    
-    gCtx.textAlign = meme.lines[idx].align
-    var memeTxt = meme.lines[idx].text;
-    //debugger
-    gCtx.fillText(memeTxt,  meme.lines[idx].xPos,  meme.lines[idx].yPos);
-    gCtx.closePath();
-    gCtx.strokeText(memeTxt, meme.lines[idx].xPos,  meme.lines[idx].yPos);
-    
+function drawText(line) {
+    gCtx.strokeStyle = line.color;
+    gCtx.fillStyle = line.fill;
+    gCtx.font = line.size + 'px' + ' ' + line.font;
+    gCtx.textAlign = line.align
+    gCtx.fillText(line.text, line.xPos, line.yPos);
+    gCtx.strokeText(line.text, line.xPos, line.yPos);
 }
 
 
 function onIncreaseFont() {
-    gMeme.lines[gMeme.selectedLineIDx].size++;
-    saveToStorage(MEME_KEY, gMeme);
-    onDrawText(gMeme.lines[gMeme.selectedLineIDx].text);
+    increaseFont();
 }
 
 function onDecreaseFont() {
-    gMeme.lines[gMeme.selectedLineIDx].size--;
-    saveToStorage(MEME_KEY, gMeme);
-    onDrawText(gMeme.lines[gMeme.selectedLineIDx].text);
+    decreaseFont();
 }
 
-function lineDown() {
-    gMeme.lines[gMeme.selectedLineIDx].yPos = gMeme.lines[gMeme.selectedLineIDx].yPos + 20;
-    onDrawText(gMeme.lines[gMeme.selectedLineIDx].text);
+function onLineDown() {
+    lineDown();
 }
 
-function lineUp(){
-    gMeme.lines[gMeme.selectedLineIDx].yPos = gMeme.lines[gMeme.selectedLineIDx].yPos - 20;
-    onDrawText(gMeme.lines[gMeme.selectedLineIDx].text);
+function onLineUp() {
+    lineUp();
 }
 
-function changeLineIdx() {
-    
-    if(gMeme.selectedLineIDx >= gMeme.lines.length -1) {
-        gMeme.selectedLineIDx = 0;
-        
-    } else {
-        ++gMeme.selectedLineIDx;
-       
-    }
-    // console.log('line: ', gMeme.selectedLineIDx);
-    
-    editLine();
-    // var currLine = document.querySelector('input.meme-txt');
-   
-    // currLine.value = gMeme.lines[gMeme.selectedLineIDx].text;
-    
-    
+function onChangeLine() {
+    changeLineIdx();
+    dispEditableTxt();
 }
 
 
-function saveToMemes() {
-    //debugger
-    var gSavedMemes = loadFromStorage(SAVED_MEME)
-    if(!gSavedMemes || !gSavedMemes.length) {
-        gSavedMemes = [];
-    }
-    var currMeme = gMeme;
-    currMeme.data = gCanvas.toDataURL();
-    gSavedMemes.push(currMeme); 
-    saveToStorage(SAVED_MEME, gSavedMemes);
+
+function onSaveToMemes() {
+    saveToMemes();
 }
 
-function editLine() {       //maybe can be deleted!!! no, need it for first focus.
-    
+function dispEditableTxt() {       
     var currLine = document.querySelector('input.meme-txt');
-    
     currLine.value = gMeme.lines[gMeme.selectedLineIDx].text;
-    
-    
 }
 
 
@@ -271,3 +165,65 @@ function handleTouch(ev) {
     ev.preventDefault()
     console.log(ev.type)
 }
+
+// function onSearhcImg() {
+
+// }
+
+
+function filterImgs() {     //not working properly
+    var searchInput = document.querySelector('.search-img').value;
+    var copyImgs = gImgs.slice();  
+    var imgs = [];
+    copyImgs.forEach(function (img, idx) {
+        img.keywords.forEach(function(word) {
+            if(word.includes(searchInput)) {
+                var currImg = copyImgs.splice(idx, 1);
+                console.log(currImg);
+                console.log(...currImg);
+                
+                imgs.push(...currImg)
+                //console.log('idx: ', idx);
+                
+                
+            }
+        })
+        if (img.keywords.includes(searchInput)) imgs.push(img);
+    });
+    console.log('imgs: ', imgs);
+    
+    if (!imgs || !imgs.length) imgs = gImgs;
+
+    renderGallery(imgs);
+}
+
+
+
+
+// function findImgById(imgId) {
+
+//     var currImg = gImgs.find((img) => img.id === imgId);
+//     return currImg.url;
+
+// }
+
+
+
+// keywords.forEach(function(word) {
+//     if()
+// })
+// // dog
+// dogs
+
+
+// var searchInput = document.querySelector('.search-img').value;
+
+//     var imgs = []; 
+//     gImgs.forEach(function(img) {
+
+//         if(img.keywords.includes(searchInput)) imgs.push(img);
+//     });
+
+//     if(!imgs || !imgs.length) imgs = gImgs;
+
+//     renderGallery(imgs);

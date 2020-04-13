@@ -14,7 +14,7 @@ var gImgs = [{
 
 {   id: 1003,
     url: 'gallery/3.jpg',
-    kewords: ['dog', 'baby', 'sleeping', 'peaceful']
+    keywords: ['dog', 'baby', 'sleeping', 'peaceful']
 },
 
 {   id: 1004,
@@ -44,3 +44,13 @@ var gImgs = [{
 ];
 
 
+function getImgsForDisplay(){
+    return gImgs;
+}
+
+function findImgById(imgId) {
+
+    var currImg = gImgs.find((img) => img.id === imgId);
+    return currImg.url;
+
+}

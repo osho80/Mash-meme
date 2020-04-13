@@ -2,6 +2,11 @@
     box-sizing: border-box;
 }
 
+body {
+    height: 100%;
+    background-color:  aquamarine;
+}
+
 .imgs-gallery, .meme-gallery {
     background-color: aquamarine;
 }
@@ -38,7 +43,7 @@ header {
     background-color: lightgreen;
     border-bottom: 2px solid purple;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 2rem;
 }
 
 h1, h2 {
@@ -63,7 +68,8 @@ header button {
 }
 
 .canvas-container {
-    margin-right: 30px;
+    margin-right: 2rem;
+    margin-left: 2rem;
 }
 
 .editor-tools {
@@ -140,15 +146,22 @@ button img {
 
 @media (max-width: 740px) {
     .meme-editor {
+        width: 100%;
         flex-direction: column;
     }
 
     .canvas-container {
-        margin-right: 0px;
+        width: 100%;
+        margin: 0px;
     }
 
     h1 {
         font-size: 28px;
+    }
+
+    header {
+        width: 100%;
+        margin: 0px;
     }
 
     header button {

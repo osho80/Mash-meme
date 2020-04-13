@@ -19,7 +19,7 @@
     <section class="imgs-gallery">
         <article class="gallery-header">
             <h2>Pick-a-Pic</h2>
-            <input class="search-img" type="text" placeholder="Search" oniput="filterImgs()"> <button onclick="onSearhcImg()">Search</button>
+            <input class="search-img" type="text" placeholder="Search" oninput="filterImgs()"> <button onclick="onSearhcImg()">Search</button>
         </article>
         <div class="gallery-display flex wrap justify-center">
                 
@@ -38,19 +38,19 @@
             <canvas id="myCanvas" width="500" height="500" style="outline:1px solid black"></canvas>
         </div>
         <div class="editor-tools flex">
-            <input type="text" class="meme-txt" oninput="onDrawText(this.value)" onfocus="editLine()"><br>
+            <input type="text" class="meme-txt" oninput="onDrawText(this.value)" onfocus="dispEditableTxt()"><br>
             <button onclick="onIncreaseFont()">
                 <img src="icons/increase font - icon.png">
             </button>
             <button onclick="onDecreaseFont()">
                 <img src="icons/decrease font - icon.png">
             </button>
-            <button onclick="lineDown()">Dw</button>
-            <button onclick="lineUp()">Up</button>
-            <button onclick="changeLineIdx()">
+            <button onclick="onLineDown()">Dw</button>
+            <button onclick="onLineUp()">Up</button>
+            <button onclick="onChangeLine()">
                 <img src="icons/up-and-down-opposite-double-arrows-side-by-side.png">
             </button>
-            <button onclick="saveToMemes()">Save</button>
+            <button onclick="onSaveToMemes()">Save</button>
         </div>
     </section>
 
